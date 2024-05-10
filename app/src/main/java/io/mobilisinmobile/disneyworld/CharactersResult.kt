@@ -15,7 +15,7 @@ class CharactersResult(
 @Serializable
 data class Info(
     @SerialName("totalPages")
-    val totalPages: Int,
+    val totalPages: Int? = null,
 
     @SerialName("count")
     val count: Int,

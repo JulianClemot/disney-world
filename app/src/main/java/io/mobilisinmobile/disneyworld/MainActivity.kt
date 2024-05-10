@@ -1,5 +1,7 @@
 package io.mobilisinmobile.disneyworld
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val disneyService = GetCharactersUseCase()
-    private val adapter = CharactersAdapter()
+    private val adapter = CharactersAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,14 +45,15 @@ class MainActivity : AppCompatActivity() {
 
         GlobalScope.launch {
             val characters = disneyService.getCharacters().characters
-            runOnUiThread{
+            runOnUiThread {
                 adapter.submitList(characters)
             }
         }
     }
 }
 
-class CharactersAdapter : ListAdapter<CharacterData, CharacterViewHolder>(CharacterDiffUtil()) {
+class CharactersAdapter(val context: Context) :
+    ListAdapter<CharacterData, CharacterViewHolder>(CharacterDiffUtil()) {
     class CharacterDiffUtil : DiffUtil.ItemCallback<CharacterData>() {
         override fun areItemsTheSame(oldItem: CharacterData, newItem: CharacterData): Boolean {
             return oldItem.id == newItem.id
@@ -63,9 +66,11 @@ class CharactersAdapter : ListAdapter<CharacterData, CharacterViewHolder>(Charac
     }
 
     class CharacterViewHolder(
+        private val context: Context,
         private val binding: ItemCharacterBinding,
     ) : ViewHolder(binding.root) {
-        constructor(parent: ViewGroup) : this(
+        constructor(context: Context, parent: ViewGroup) : this(
+            context,
             ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
@@ -89,6 +94,12 @@ class CharactersAdapter : ListAdapter<CharacterData, CharacterViewHolder>(Charac
                 }
 
                 appearances.text = stringBuilder.toString()
+
+                root.setOnClickListener {
+                    val intent = Intent(context, DetailActivity::class.java)
+                    intent.putExtra("characterId", item.id)
+                    context.startActivity(intent)
+                }
             }
         }
     }
@@ -98,6 +109,6 @@ class CharactersAdapter : ListAdapter<CharacterData, CharacterViewHolder>(Charac
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
-        return CharacterViewHolder(parent)
+        return CharacterViewHolder(context, parent)
     }
 }

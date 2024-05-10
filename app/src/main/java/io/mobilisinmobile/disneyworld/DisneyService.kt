@@ -11,5 +11,5 @@ interface DisneyService {
 
 
     @GET("/character/{id}")
-    suspend fun getCharacter(@Path("id") characterId: Int)
+    suspend fun getCharacter(@Path("id") characterId: Int) : CharacterResult
 }
