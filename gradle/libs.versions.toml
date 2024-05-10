@@ -13,9 +13,12 @@ retrofit="2.11.0"
 okhttp="4.12.0"
 kotlinSerializationJson="1.6.2"
 retrofitKotlinSerializationConverter="1.0.0"
+coil="2.6.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }

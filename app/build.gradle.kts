@@ -42,8 +42,8 @@ android {
 
 dependencies {
     implementation(platform(libs.okhttpBom))
-
     implementation(libs.appcompat)
+    implementation(libs.coil)
     implementation(libs.okhttp)
     implementation(libs.okhttpLoggingInterceptor)
     implementation(libs.retrofit)
