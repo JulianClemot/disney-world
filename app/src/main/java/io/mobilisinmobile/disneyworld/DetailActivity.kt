@@ -1,6 +1,8 @@
 package io.mobilisinmobile.disneyworld
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -31,16 +33,34 @@ class DetailActivity : AppCompatActivity() {
         val characterId = intent.extras?.getInt("characterId")
 
         GlobalScope.launch {
-            val characterResult = getCharacterUseCase.getCharacter(characterId.toString())
             runOnUiThread {
-                binding.name.text = characterResult.character.name
-                binding.avatar.load(characterResult.character.imageUrl) {
-                    crossfade(true)
-                    transformations(CircleCropTransformation())
-                }
-                binding.allies.text = "Séries Télés : "+characterResult.character.tvShows.joinToString(", ")
+                binding.content.visibility = View.GONE
+                binding.errorView.visibility = View.GONE
+                binding.loadingView.visibility = View.VISIBLE
+            }
+            try {
+                val characterResult = getCharacterUseCase.getCharacter(characterId.toString())
+                runOnUiThread {
+                    binding.content.visibility = View.VISIBLE
+                    binding.errorView.visibility = View.GONE
+                    binding.loadingView.visibility = View.GONE
+                    binding.name.text = characterResult.character.name
+                    binding.avatar.load(characterResult.character.imageUrl) {
+                        crossfade(true)
+                        transformations(CircleCropTransformation())
+                    }
+                    binding.allies.text = "Séries Télés : "+characterResult.character.tvShows.joinToString(", ")
 
-                binding.enemies.text = "Attractions Disney : "+characterResult.character.parkAttractions.joinToString(", ")
+                    binding.enemies.text = "Attractions Disney : "+characterResult.character.parkAttractions.joinToString(", ")
+                }
+            } catch (exception : Exception) {
+                exception.printStackTrace()
+                runOnUiThread {
+                    binding.content.visibility = View.GONE
+                    binding.errorView.visibility = View.VISIBLE
+                    binding.errorLabel.text = "Erreur lors de la récupération des données"
+                    binding.loadingView.visibility = View.GONE
+                }
             }
         }
     }
