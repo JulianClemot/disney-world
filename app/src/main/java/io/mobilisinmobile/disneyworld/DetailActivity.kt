@@ -49,9 +49,9 @@ class DetailActivity : AppCompatActivity() {
                         crossfade(true)
                         transformations(CircleCropTransformation())
                     }
-                    binding.allies.text = "Séries Télés : "+characterResult.character.tvShows.joinToString(", ")
+                    binding.tvShows.text = "Séries Télés : "+characterResult.character.tvShows.joinToString(", ")
 
-                    binding.enemies.text = "Attractions Disney : "+characterResult.character.parkAttractions.joinToString(", ")
+                    binding.disneyAttractions.text = "Attractions Disney : "+characterResult.character.parkAttractions.joinToString(", ")
                 }
             } catch (exception : Exception) {
                 exception.printStackTrace()
