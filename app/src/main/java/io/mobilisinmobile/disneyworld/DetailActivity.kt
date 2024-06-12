@@ -43,14 +43,12 @@ class DetailActivity : AppCompatActivity() {
             runOnUiThread {
                 binding.content.visibility = View.GONE
                 binding.errorView.visibility = View.GONE
-                binding.loadingView.visibility = View.VISIBLE
             }
             try {
                 val characterResult = getCharacterUseCase.getCharacter(characterId.toString())
                 runOnUiThread {
                     binding.content.visibility = View.VISIBLE
                     binding.errorView.visibility = View.GONE
-                    binding.loadingView.visibility = View.GONE
                     binding.name.text = characterResult.character.name
                     binding.avatar.load(characterResult.character.imageUrl) {
                         crossfade(true)
@@ -66,7 +64,6 @@ class DetailActivity : AppCompatActivity() {
                     binding.content.visibility = View.GONE
                     binding.errorView.visibility = View.VISIBLE
                     binding.errorLabel.text = "Erreur lors de la récupération des données"
-                    binding.loadingView.visibility = View.GONE
                 }
             }
         }
