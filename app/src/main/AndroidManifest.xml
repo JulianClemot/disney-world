@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name=".DetailActivity"
+            android:name=".detail.DetailActivity"
             android:exported="false" />
     </application>
 

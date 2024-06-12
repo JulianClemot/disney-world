@@ -9,18 +9,19 @@ activity = "1.9.0"
 constraintlayout = "2.1.4"
 kotlin = "1.9.24"
 coreKtx = "1.13.1"
-retrofit="2.11.0"
-okhttp="4.12.0"
-kotlinSerializationJson="1.6.2"
-retrofitKotlinSerializationConverter="1.0.0"
-coil="2.6.0"
-mockwebserver="4.12.0"
+retrofit = "2.11.0"
+okhttp = "4.12.0"
+kotlinSerializationJson = "1.6.2"
+retrofitKotlinSerializationConverter = "1.0.0"
+coil = "2.6.0"
+mockwebserver = "4.12.0"
+koin-bom = "3.5.6"
+coroutines = "1.8.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
-coilTest = { group = "io.coil-kt", name = "coil-test", version.ref = "coil"}
+coilTest = { group = "io.coil-kt", name = "coil-test", version.ref = "coil" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -32,9 +33,13 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 okhttpBom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
 okhttpLoggingInterceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
-kotlinSerializationJson = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerializationJson"}
-retrofitKotlinSerializationConverter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinSerializationConverter"}
-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver"}
+kotlinSerializationJson = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerializationJson" }
+retrofitKotlinSerializationConverter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinSerializationConverter" }
+mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver" }
+koinBom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+koinCore = { group = "io.insert-koin", name = "koin-core" }
+koinAndroid = { group = "io.insert-koin", name = "koin-android" }
+coroutinesTest = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

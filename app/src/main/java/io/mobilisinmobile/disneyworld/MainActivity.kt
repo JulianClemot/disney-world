@@ -19,13 +19,15 @@ import coil.transform.CircleCropTransformation
 import io.mobilisinmobile.disneyworld.CharactersAdapter.CharacterViewHolder
 import io.mobilisinmobile.disneyworld.databinding.ActivityMainBinding
 import io.mobilisinmobile.disneyworld.databinding.ItemCharacterBinding
+import io.mobilisinmobile.disneyworld.detail.DetailActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var disneyService : GetCharactersUseCase
+    private val disneyService : GetCharactersUseCase by inject()
     private val adapter = CharactersAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,9 +41,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        disneyService = GetCharactersUseCase(applicationContext as DisneyApplication)
-
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
     }
@@ -58,13 +57,13 @@ class MainActivity : AppCompatActivity() {
 }
 
 class CharactersAdapter(val context: Context) :
-    ListAdapter<CharacterData, CharacterViewHolder>(CharacterDiffUtil()) {
-    class CharacterDiffUtil : DiffUtil.ItemCallback<CharacterData>() {
-        override fun areItemsTheSame(oldItem: CharacterData, newItem: CharacterData): Boolean {
+    ListAdapter<RestCharacterData, CharacterViewHolder>(CharacterDiffUtil()) {
+    class CharacterDiffUtil : DiffUtil.ItemCallback<RestCharacterData>() {
+        override fun areItemsTheSame(oldItem: RestCharacterData, newItem: RestCharacterData): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: CharacterData, newItem: CharacterData): Boolean {
+        override fun areContentsTheSame(oldItem: RestCharacterData, newItem: RestCharacterData): Boolean {
             return oldItem == newItem
         }
 
@@ -79,7 +78,7 @@ class CharactersAdapter(val context: Context) :
             ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
-        fun bind(item: CharacterData) {
+        fun bind(item: RestCharacterData) {
             binding.apply {
                 avatar.load(item.imageUrl) {
                     crossfade(true)

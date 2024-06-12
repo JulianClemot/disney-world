@@ -1,32 +1,21 @@
 package io.mobilisinmobile.disneyworld
 
-import android.app.Application
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
+import io.mobilisinmobile.disneyworld.detail.Character
 
-class GetCharacterUseCase(applicationContext : DisneyApplication) {
+class GetCharacterUseCase(private val characterRepository: CharacterRepository) {
 
-    private val retrofitClient : DisneyService = Retrofit.Builder()
-        .baseUrl(applicationContext.baseUrl)
-        .addConverterFactory(
-            Json {
-                ignoreUnknownKeys = true
-            }.asConverterFactory("application/json".toMediaType())
-        )
-        .client(
-            OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
-            .build())
-        .build().create(DisneyService::class.java)
-
-
-    suspend fun getCharacter(characterId : String) : CharacterResult {
-        return retrofitClient.getCharacter(characterId.toInt())
+    suspend fun getCharacter(characterId: Int?): Character {
+        return characterId?.let {
+            characterRepository.getCharacter(it).toCharacter()
+        } ?: throw IllegalArgumentException("Character id is null")
     }
 }
+
+fun RestCharacterResult.toCharacter() = Character(
+    name = this.character.name,
+    imageUrl = this.character.imageUrl.orEmpty(),
+    films = this.character.films,
+    shortFilms = this.character.shortFilms,
+    tvShows = this.character.tvShows,
+    parkAttractions = this.character.parkAttractions
+)

@@ -4,10 +4,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class CharacterResult(
+class RestCharacterResult(
     @SerialName("info")
-    val info: Info,
+    val info: RestInfo,
 
     @SerialName("data")
-    val character: CharacterData,
+    val character: RestCharacterData,
 )
