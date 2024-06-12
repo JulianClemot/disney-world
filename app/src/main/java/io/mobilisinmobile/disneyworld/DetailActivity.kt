@@ -18,6 +18,8 @@ class DetailActivity : AppCompatActivity() {
 
     private val getCharacterUseCase = GetCharacterUseCase()
 
+    private var characterId : Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -30,8 +32,11 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 
-        val characterId = intent.extras?.getInt("characterId")
+        characterId = intent.extras?.getInt("characterId", 0) ?: 0
+    }
 
+    override fun onStart() {
+        super.onStart()
         GlobalScope.launch {
             runOnUiThread {
                 binding.content.visibility = View.GONE
