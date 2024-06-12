@@ -18,7 +18,7 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var getCharacterUseCase : GetCharacterUseCase
 
-    private var characterId : Int = 0
+    private var characterId : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class DetailActivity : AppCompatActivity() {
 
         getCharacterUseCase = GetCharacterUseCase(applicationContext as DisneyApplication)
 
-        characterId = intent.extras?.getInt("characterId", 0) ?: 0
+        characterId = intent.extras?.getInt("characterId")
     }
 
     override fun onStart() {
