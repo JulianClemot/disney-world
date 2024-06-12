@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
 
-    private val getCharacterUseCase = GetCharacterUseCase()
+    private var getCharacterUseCase = GetCharacterUseCase()
 
     private var characterId : Int = 0
 

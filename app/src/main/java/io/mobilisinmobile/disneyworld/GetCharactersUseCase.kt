@@ -7,9 +7,9 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
-class GetCharactersUseCase {
+class GetCharactersUseCase(baseURL : String = "https://api.disneyapi.dev") {
     private val retrofitClient : DisneyService = Retrofit.Builder()
-        .baseUrl("https://api.disneyapi.dev")
+        .baseUrl(baseURL)
         .addConverterFactory(
             Json {
                 ignoreUnknownKeys = true
