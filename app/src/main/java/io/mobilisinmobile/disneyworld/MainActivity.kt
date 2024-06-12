@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val disneyService = GetCharactersUseCase()
+    private lateinit var disneyService : GetCharactersUseCase
     private val adapter = CharactersAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,9 +40,14 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        disneyService = GetCharactersUseCase(applicationContext as DisneyApplication)
+
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
+    }
 
+    override fun onStart() {
+        super.onStart()
         GlobalScope.launch {
             val characters = disneyService.getCharacters().characters
             runOnUiThread {

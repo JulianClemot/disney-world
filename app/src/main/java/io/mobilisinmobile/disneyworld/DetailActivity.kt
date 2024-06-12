@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
 
-    private var getCharacterUseCase = GetCharacterUseCase()
+    private lateinit var getCharacterUseCase : GetCharacterUseCase
 
     private var characterId : Int = 0
 
@@ -31,6 +31,8 @@ class DetailActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        getCharacterUseCase = GetCharacterUseCase(applicationContext as DisneyApplication)
 
         characterId = intent.extras?.getInt("characterId", 0) ?: 0
     }

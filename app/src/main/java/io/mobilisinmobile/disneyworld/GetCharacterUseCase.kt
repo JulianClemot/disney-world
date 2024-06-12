@@ -1,5 +1,6 @@
 package io.mobilisinmobile.disneyworld
 
+import android.app.Application
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -7,10 +8,10 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
-class GetCharacterUseCase(baseURL : String = "https://api.disneyapi.dev") {
+class GetCharacterUseCase(applicationContext : DisneyApplication) {
 
     private val retrofitClient : DisneyService = Retrofit.Builder()
-        .baseUrl(baseURL)
+        .baseUrl(applicationContext.baseUrl)
         .addConverterFactory(
             Json {
                 ignoreUnknownKeys = true
