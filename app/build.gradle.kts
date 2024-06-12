@@ -15,7 +15,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "io.mobilisinmobile.disneyworld.DisneyMockTestRunner"
     }
 
     buildFeatures {
@@ -55,5 +55,7 @@ dependencies {
     implementation(libs.retrofitKotlinSerializationConverter)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.coilTest)
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.mockwebserver)
 }

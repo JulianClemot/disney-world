@@ -21,7 +21,7 @@ import retrofit2.Retrofit
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
 
-    private var characterId : Int = 0
+    private var characterId : Int? = null
 
     private val retrofitClient : DisneyService by lazy {
         Retrofit.Builder()
@@ -53,7 +53,7 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 
-        characterId = intent.extras?.getInt("characterId", 0) ?: 0
+        characterId = intent.extras?.getInt("characterId")
     }
 
     override fun onStart() {
