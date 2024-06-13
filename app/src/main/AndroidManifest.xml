@@ -26,10 +26,6 @@
         </activity>
 
         <activity
-            android:name=".DetailActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".new.detail.NewDetailActivity"
             android:exported="false" />
     </application>
