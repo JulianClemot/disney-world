@@ -2,7 +2,7 @@ package io.mobilisinmobile.disneyworld.new
 
 import io.mobilisinmobile.disneyworld.new.detail.Character
 
-class NewGetCharacterUseCase(private val characterRepository: CharacterRepository) {
+class GetCharacterUseCase(private val characterRepository: CharacterRepository) {
 
     suspend fun getCharacter(characterId: Int?): Character {
         return characterId?.let {

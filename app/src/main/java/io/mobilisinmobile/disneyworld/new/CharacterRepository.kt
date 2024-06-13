@@ -5,7 +5,7 @@ interface CharacterRepository {
 
 }
 
-class CharacterRepositoryImpl(private val disneyService: NewDisneyService) : CharacterRepository {
+class CharacterRepositoryImpl(private val disneyService: DisneyService) : CharacterRepository {
 
     override suspend fun getCharacter(characterId: Int): RestCharacterResult {
         return disneyService.getCharacter(characterId)

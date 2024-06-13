@@ -3,8 +3,8 @@ package io.mobilisinmobile.disneyworld
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import io.mobilisinmobile.disneyworld.new.CharacterRepository
 import io.mobilisinmobile.disneyworld.new.CharacterRepositoryImpl
-import io.mobilisinmobile.disneyworld.new.NewDisneyService
-import io.mobilisinmobile.disneyworld.new.NewGetCharacterUseCase
+import io.mobilisinmobile.disneyworld.new.GetCharacterUseCase
+import io.mobilisinmobile.disneyworld.new.DisneyService
 import io.mobilisinmobile.disneyworld.new.detail.DetailViewModel
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -39,11 +39,11 @@ val appModule = module {
             .build()
     }
 
-    single { get<Retrofit>().create(NewDisneyService::class.java) }
+    single { get<Retrofit>().create(DisneyService::class.java) }
 
     single<CharacterRepository> { CharacterRepositoryImpl(get()) }
 
-    single { NewGetCharacterUseCase(get()) }
+    single { GetCharacterUseCase(get()) }
 
     viewModel { DetailViewModel(get()) }
 }

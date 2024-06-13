@@ -4,7 +4,7 @@ package io.mobilisinmobile.disneyworld
 
 import io.mobilisinmobile.disneyworld.fixtures.FakeCharacterRepository
 import io.mobilisinmobile.disneyworld.new.CharacterRepository
-import io.mobilisinmobile.disneyworld.new.NewGetCharacterUseCase
+import io.mobilisinmobile.disneyworld.new.GetCharacterUseCase
 import io.mobilisinmobile.disneyworld.new.detail.Character
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,7 +25,7 @@ import org.junit.runner.Description
 class GetCharacterUseCaseTest {
 
     private lateinit var characterRepository: CharacterRepository
-    private lateinit var getCharacterUseCase: NewGetCharacterUseCase
+    private lateinit var getCharacterUseCase: GetCharacterUseCase
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -33,7 +33,7 @@ class GetCharacterUseCaseTest {
     @Before
     fun setup() {
         characterRepository = FakeCharacterRepository()
-        getCharacterUseCase = NewGetCharacterUseCase(characterRepository)
+        getCharacterUseCase = GetCharacterUseCase(characterRepository)
     }
 
     @Test
