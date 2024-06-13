@@ -15,11 +15,16 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "io.mobilisinmobile.disneyworld.DisneyMockTestRunner"
     }
 
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 
     buildTypes {
@@ -42,10 +47,15 @@ android {
 
 dependencies {
     implementation(platform(libs.okhttpBom))
-    implementation(libs.appcompat)
-    implementation(libs.coil)
     implementation(libs.okhttp)
     implementation(libs.okhttpLoggingInterceptor)
+    implementation(platform(libs.composeBom))
+    implementation(libs.composeMaterial3)
+    implementation(libs.composeActivity)
+    implementation(libs.composeToolingPreview)
+    implementation(libs.appcompat)
+    implementation(libs.coil)
+    implementation(libs.coilCompose)
     implementation(libs.retrofit)
     implementation(libs.material)
     implementation(libs.activity)
@@ -53,7 +63,17 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.kotlinSerializationJson)
     implementation(libs.retrofitKotlinSerializationConverter)
+    implementation(platform(libs.koinBom))
+    implementation(libs.koinCore)
+    implementation(libs.koinAndroid)
+    implementation(libs.lifecycle.runtime.compose.android)
+    debugImplementation(libs.composeToolingDebug)
+    debugImplementation(libs.composeTestManifest)
     testImplementation(libs.junit)
+    testImplementation(libs.coroutinesTest)
+    androidTestImplementation(libs.composeTest)
     androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.coilTest)
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.mockwebserver)
 }
