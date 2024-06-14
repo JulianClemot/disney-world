@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -55,7 +56,7 @@ class NewDetailActivity : ComponentActivity() {
 }
 
 @Composable
-private fun DetailScreen(detailScreenState: DetailViewModel.DetailScreenState) {
+fun DetailScreen(detailScreenState: DetailViewModel.DetailScreenState) {
     when (detailScreenState) {
         is DetailViewModel.DetailScreenState.Loading -> {
             LoadingContent()
@@ -132,6 +133,7 @@ fun DetailContent(character: Character) {
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)
+                .testTag("name")
         )
         Text(
             text = "Séries Télés : ${character.tvShows.joinToString(", ")}",
@@ -141,6 +143,7 @@ fun DetailContent(character: Character) {
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)
+                .testTag("tvShows")
         )
         Text(
             text = "Attractions Disney : ${character.parkAttractions.joinToString(", ")}",
@@ -149,6 +152,7 @@ fun DetailContent(character: Character) {
             fontSize = 12.sp,
             modifier = Modifier
                 .padding(16.dp)
+                .testTag("attractions")
         )
     }
 }

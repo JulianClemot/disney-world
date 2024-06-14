@@ -71,6 +71,7 @@ dependencies {
     debugImplementation(libs.composeTestManifest)
     testImplementation(libs.junit)
     testImplementation(libs.coroutinesTest)
+    androidTestImplementation(platform(libs.composeBom))
     androidTestImplementation(libs.composeTest)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.coilTest)
