@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.kotlinSerializationJson)
     implementation(libs.retrofitKotlinSerializationConverter)
     testImplementation(libs.junit)
+    testImplementation(libs.coroutineTest)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
