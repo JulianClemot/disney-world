@@ -1,7 +1,6 @@
 package io.mobilisinmobile.disneyworld
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,16 +8,35 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import io.mobilisinmobile.disneyworld.databinding.ActivityDetailBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
 
-    private lateinit var getCharacterUseCase : GetCharacterUseCase
-
     private var characterId : Int = 0
+
+    private val retrofitClient : DisneyService = Retrofit.Builder()
+        .baseUrl((applicationContext as DisneyApplication).baseUrl)
+        .addConverterFactory(
+            Json {
+                ignoreUnknownKeys = true
+            }.asConverterFactory("application/json".toMediaType())
+        )
+        .client(
+            OkHttpClient.Builder()
+                .addInterceptor(HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                })
+                .build())
+        .build().create(DisneyService::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +50,6 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 
-        getCharacterUseCase = GetCharacterUseCase(applicationContext as DisneyApplication)
-
         characterId = intent.extras?.getInt("characterId", 0) ?: 0
     }
 
@@ -45,7 +61,7 @@ class DetailActivity : AppCompatActivity() {
                 binding.errorView.visibility = View.GONE
             }
             try {
-                val characterResult = getCharacterUseCase.getCharacter(characterId.toString())
+                val characterResult = retrofitClient.getCharacter(characterId)
                 runOnUiThread {
                     binding.content.visibility = View.VISIBLE
                     binding.errorView.visibility = View.GONE

@@ -16,17 +16,37 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import io.mobilisinmobile.disneyworld.CharactersAdapter.CharacterViewHolder
 import io.mobilisinmobile.disneyworld.databinding.ActivityMainBinding
 import io.mobilisinmobile.disneyworld.databinding.ItemCharacterBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var disneyService : GetCharactersUseCase
     private val adapter = CharactersAdapter(this)
+
+    private val retrofitClient : DisneyService = Retrofit.Builder()
+        .baseUrl((applicationContext as DisneyApplication).baseUrl)
+        .addConverterFactory(
+            Json {
+                ignoreUnknownKeys = true
+            }.asConverterFactory("application/json".toMediaType())
+        )
+        .client(
+            OkHttpClient.Builder()
+                .addInterceptor(HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                })
+                .build())
+        .build().create(DisneyService::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +60,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        disneyService = GetCharactersUseCase(applicationContext as DisneyApplication)
-
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
     }
@@ -49,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         GlobalScope.launch {
-            val characters = disneyService.getCharacters().characters
+            val characters = retrofitClient.getCharacters().characters
             runOnUiThread {
                 adapter.submitList(characters)
             }
