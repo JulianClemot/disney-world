@@ -33,20 +33,23 @@ class MainActivity : AppCompatActivity() {
 
     private val adapter = CharactersAdapter(this)
 
-    private val retrofitClient : DisneyService = Retrofit.Builder()
-        .baseUrl((applicationContext as DisneyApplication).baseUrl)
-        .addConverterFactory(
-            Json {
-                ignoreUnknownKeys = true
-            }.asConverterFactory("application/json".toMediaType())
-        )
-        .client(
-            OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                })
-                .build())
-        .build().create(DisneyService::class.java)
+    private val retrofitClient : DisneyService by lazy {
+        Retrofit.Builder()
+            .baseUrl((applicationContext as DisneyApplication).baseUrl)
+            .addConverterFactory(
+                Json {
+                    ignoreUnknownKeys = true
+                }.asConverterFactory("application/json".toMediaType())
+            )
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    })
+                    .build()
+            )
+            .build().create(DisneyService::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
