@@ -1,8 +1,9 @@
 package io.mobilisinmobile.disneyworld
 
 import android.view.View
-import io.mobilisinmobile.disneyworld.detail.DetailDelegate
+import io.mobilisinmobile.disneyworld.detail.NewDetailDelegate
 import io.mobilisinmobile.disneyworld.detail.DetailViewModel
+import io.mobilisinmobile.disneyworld.detail.IDetailDelegate
 import io.mobilisinmobile.disneyworld.fake.FakeDetailsUIProxy
 import io.mobilisinmobile.disneyworld.fake.FakeDisneyServiceProxy
 import io.mobilisinmobile.utils.MainDispatcherRule
@@ -16,7 +17,7 @@ class DetailDelegateTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var detailDelegate: DetailDelegate
+    private lateinit var detailDelegate: IDetailDelegate
 
     private lateinit var fakeUiProxy: FakeDetailsUIProxy
     private lateinit var fakeServiceProxy: FakeDisneyServiceProxy
@@ -64,7 +65,7 @@ class DetailDelegateTest {
             ),
         )
 
-        detailDelegate = DetailDelegate(
+        detailDelegate = NewDetailDelegate(
             uiProxy = fakeUiProxy,
             viewModel = viewModel
         )

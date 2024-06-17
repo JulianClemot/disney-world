@@ -2,11 +2,11 @@ package io.mobilisinmobile.disneyworld.detail
 
 import io.mobilisinmobile.disneyworld.proxies.definition.IDetailsUIProxy
 
-class DetailDelegate(
+class NewDetailDelegate(
     private val uiProxy: IDetailsUIProxy,
     private val viewModel: DetailViewModel,
-) {
-    suspend fun register() {
+) : IDetailDelegate {
+    override suspend fun register() {
         viewModel.characterDetailState.collect {
             when (it) {
                 is DetailViewModel.DetailScreenState.Loading -> {
@@ -28,7 +28,7 @@ class DetailDelegate(
         }
     }
 
-    fun fetchCharacter(characterId: Int) {
+    override fun fetchCharacter(characterId: Int) {
         viewModel.getCharacterDetail(characterId)
     }
 }

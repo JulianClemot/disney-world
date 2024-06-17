@@ -34,7 +34,7 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 
-        detailDelegate = DetailDelegate(
+        detailDelegate = NewDetailDelegate(
             uiProxy = DetailsUIProxy(binding),
             viewModel = viewModel
         )
