@@ -1,6 +1,8 @@
 package io.mobilisinmobile.disneyworld
 
 import android.view.View
+import io.mobilisinmobile.disneyworld.detail.DetailDelegate
+import io.mobilisinmobile.disneyworld.detail.DetailViewModel
 import io.mobilisinmobile.disneyworld.fake.FakeDetailsUIProxy
 import io.mobilisinmobile.disneyworld.fake.FakeDisneyServiceProxy
 import io.mobilisinmobile.utils.MainDispatcherRule
@@ -20,14 +22,14 @@ class DetailDelegateTest {
     private lateinit var fakeServiceProxy: FakeDisneyServiceProxy
 
     private val defaultCharacterId = 10
-    private val defaultCharacterResult = CharacterResult(
-        info = Info(
+    private val defaultCharacterResult = RestCharacterResult(
+        info = RestInfo(
             count = 1,
             previousPage = "",
             nextPage = "",
             totalPages = 1,
         ),
-        character = CharacterData(
+        character = RestCharacterData(
             id = 10,
             name = "Mickey Mouse",
             imageUrl = "https://www.google.com",
@@ -54,9 +56,17 @@ class DetailDelegateTest {
             it.characterResult = defaultCharacterResult
         }
 
+        val viewModel = DetailViewModel(
+            GetCharacterUseCase(
+                CharacterRepositoryImpl(
+                    fakeServiceProxy
+                ),
+            ),
+        )
+
         detailDelegate = DetailDelegate(
             uiProxy = fakeUiProxy,
-            serviceProxy = fakeServiceProxy
+            viewModel = viewModel
         )
     }
 
@@ -64,6 +74,7 @@ class DetailDelegateTest {
     fun should_fetch_character_details_when_service_returns_success() {
         runBlocking {
             // When
+            detailDelegate.register()
             detailDelegate.fetchCharacter(characterId = defaultCharacterId)
 
             // Then
@@ -81,10 +92,12 @@ class DetailDelegateTest {
     fun should_not_fetch_character_details_when_service_returns_failure() {
         runBlocking {
             // Given
+            detailDelegate.register()
             fakeServiceProxy.shouldThrowException = true
 
             // When
             detailDelegate.fetchCharacter(characterId = defaultCharacterId)
+            detailDelegate.register()
 
             // Then
             assert(fakeUiProxy.contentVisibility == View.GONE)

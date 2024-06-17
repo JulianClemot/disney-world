@@ -4,25 +4,16 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class CharacterResult(
+class RestCharactersResult(
     @SerialName("info")
-    val info: Info,
+    val info: RestInfo,
 
     @SerialName("data")
-    val character: CharacterData,
+    val characters: List<RestCharacterData>,
 )
 
 @Serializable
-class CharactersResult(
-    @SerialName("info")
-    val info: Info,
-
-    @SerialName("data")
-    val characters: List<CharacterData>,
-)
-
-@Serializable
-data class Info(
+data class RestInfo(
     @SerialName("totalPages")
     val totalPages: Int? = null,
 
@@ -37,7 +28,7 @@ data class Info(
 )
 
 @Serializable
-data class CharacterData(
+data class RestCharacterData(
     @SerialName("_id")
     val id: Int,
 

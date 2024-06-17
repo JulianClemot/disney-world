@@ -1,11 +1,14 @@
-package io.mobilisinmobile.disneyworld.proxies.impl
+package io.mobilisinmobile.disneyworld
 
-import io.mobilisinmobile.disneyworld.DisneyService
-import io.mobilisinmobile.disneyworld.RestCharacterResult
-import io.mobilisinmobile.disneyworld.RestCharactersResult
 import io.mobilisinmobile.disneyworld.proxies.definition.IDisneyServiceProxy
 
-class DisneyServiceProxy(private val disneyService: DisneyService) : IDisneyServiceProxy {
+interface CharacterRepository {
+    suspend fun getCharacter(characterId: Int): RestCharacterResult
+    suspend fun getCharacters(): RestCharactersResult
+
+}
+
+class CharacterRepositoryImpl(private val disneyService: IDisneyServiceProxy) : CharacterRepository {
 
     override suspend fun getCharacter(characterId: Int): RestCharacterResult {
         return disneyService.getCharacter(characterId)

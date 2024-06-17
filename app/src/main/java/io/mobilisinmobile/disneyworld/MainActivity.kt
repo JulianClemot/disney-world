@@ -16,40 +16,19 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import io.mobilisinmobile.disneyworld.CharactersAdapter.CharacterViewHolder
 import io.mobilisinmobile.disneyworld.databinding.ActivityMainBinding
 import io.mobilisinmobile.disneyworld.databinding.ItemCharacterBinding
+import io.mobilisinmobile.disneyworld.detail.DetailActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
+    private val disneyService : GetCharactersUseCase by inject()
     private val adapter = CharactersAdapter(this)
-
-    private val retrofitClient : DisneyService by lazy {
-        Retrofit.Builder()
-            .baseUrl((applicationContext as DisneyApplication).baseUrl)
-            .addConverterFactory(
-                Json {
-                    ignoreUnknownKeys = true
-                }.asConverterFactory("application/json".toMediaType())
-            )
-            .client(
-                OkHttpClient.Builder()
-                    .addInterceptor(HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
-                    })
-                    .build()
-            )
-            .build().create(DisneyService::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +41,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
     }
@@ -70,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         GlobalScope.launch {
-            val characters = retrofitClient.getCharacters().characters
+            val characters = disneyService.getCharacters().characters
             runOnUiThread {
                 adapter.submitList(characters)
             }
@@ -79,13 +57,13 @@ class MainActivity : AppCompatActivity() {
 }
 
 class CharactersAdapter(val context: Context) :
-    ListAdapter<CharacterData, CharacterViewHolder>(CharacterDiffUtil()) {
-    class CharacterDiffUtil : DiffUtil.ItemCallback<CharacterData>() {
-        override fun areItemsTheSame(oldItem: CharacterData, newItem: CharacterData): Boolean {
+    ListAdapter<RestCharacterData, CharacterViewHolder>(CharacterDiffUtil()) {
+    class CharacterDiffUtil : DiffUtil.ItemCallback<RestCharacterData>() {
+        override fun areItemsTheSame(oldItem: RestCharacterData, newItem: RestCharacterData): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: CharacterData, newItem: CharacterData): Boolean {
+        override fun areContentsTheSame(oldItem: RestCharacterData, newItem: RestCharacterData): Boolean {
             return oldItem == newItem
         }
 
@@ -100,7 +78,7 @@ class CharactersAdapter(val context: Context) :
             ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
-        fun bind(item: CharacterData) {
+        fun bind(item: RestCharacterData) {
             binding.apply {
                 avatar.load(item.imageUrl) {
                     crossfade(true)

@@ -1,24 +1,26 @@
-package io.mobilisinmobile.disneyworld
+package io.mobilisinmobile.disneyworld.detail
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import io.mobilisinmobile.disneyworld.R
 import io.mobilisinmobile.disneyworld.databinding.ActivityDetailBinding
 import io.mobilisinmobile.disneyworld.proxies.impl.DetailsUIProxy
-import io.mobilisinmobile.disneyworld.proxies.impl.DisneyServiceProxy
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
 
-    @VisibleForTesting
-    var characterId: Int = 0
+    private val viewModel: DetailViewModel by viewModel()
 
     private lateinit var detailDelegate: IDetailDelegate
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,18 +34,21 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 
-        characterId = intent.extras?.getInt("characterId", 0) ?: 0
-
         detailDelegate = DetailDelegate(
-            serviceProxy = DisneyServiceProxy(applicationContext as DisneyApplication),
-            uiProxy = DetailsUIProxy(binding)
+            uiProxy = DetailsUIProxy(binding),
+            viewModel = viewModel
         )
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailDelegate.register()
+            }
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        GlobalScope.launch {
-            detailDelegate.fetchCharacter(characterId)
-        }
+        val characterId = intent.extras?.getInt("characterId")
+        detailDelegate.fetchCharacter(characterId ?: 0)
     }
 }

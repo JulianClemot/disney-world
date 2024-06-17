@@ -15,6 +15,7 @@ kotlinSerializationJson="1.6.2"
 retrofitKotlinSerializationConverter="1.0.0"
 coil="2.6.0"
 coroutineTest="1.9.0-RC"
+koin-bom = "3.5.6"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -34,6 +35,9 @@ okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
 okhttpLoggingInterceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
 kotlinSerializationJson = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerializationJson"}
 retrofitKotlinSerializationConverter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinSerializationConverter"}
+koinBom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+koinCore = { group = "io.insert-koin", name = "koin-core" }
+koinAndroid = { group = "io.insert-koin", name = "koin-android" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
