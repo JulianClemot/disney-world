@@ -8,8 +8,8 @@ import kotlinx.coroutines.withContext
 class DetailDelegate(
     private val serviceProxy: IDisneyServiceProxy,
     private val uiProxy: IDetailsUIProxy,
-) {
-    suspend fun fetchCharacter(characterId: Int) {
+) : IDetailDelegate {
+    override suspend fun fetchCharacter(characterId: Int) {
         withContext(Dispatchers.Main) {
             uiProxy.hideAllViews()
         }

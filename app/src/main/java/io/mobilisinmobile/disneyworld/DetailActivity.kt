@@ -7,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import io.mobilisinmobile.disneyworld.databinding.ActivityDetailBinding
-import io.mobilisinmobile.disneyworld.proxies.definition.IDetailsUIProxy
-import io.mobilisinmobile.disneyworld.proxies.definition.IDisneyServiceProxy
 import io.mobilisinmobile.disneyworld.proxies.impl.DetailsUIProxy
 import io.mobilisinmobile.disneyworld.proxies.impl.DisneyServiceProxy
 import kotlinx.coroutines.GlobalScope
@@ -20,7 +18,7 @@ class DetailActivity : AppCompatActivity() {
     @VisibleForTesting
     var characterId: Int = 0
 
-    private lateinit var detailDelegate: DetailDelegate
+    private lateinit var detailDelegate: IDetailDelegate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
