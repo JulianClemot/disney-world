@@ -19,7 +19,7 @@ import coil.transform.CircleCropTransformation
 import io.mobilisinmobile.disneyworld.CharactersAdapter.CharacterViewHolder
 import io.mobilisinmobile.disneyworld.databinding.ActivityMainBinding
 import io.mobilisinmobile.disneyworld.databinding.ItemCharacterBinding
-import io.mobilisinmobile.disneyworld.new.detail.NewDetailActivity
+import io.mobilisinmobile.disneyworld.new.detail.DetailActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -102,7 +102,7 @@ class CharactersAdapter(val context: Context) :
                 appearances.text = stringBuilder.toString()
 
                 root.setOnClickListener {
-                    val intent = Intent(context, NewDetailActivity::class.java)
+                    val intent = Intent(context, DetailActivity::class.java)
                     intent.putExtra("characterId", item.id)
                     context.startActivity(intent)
                 }

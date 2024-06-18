@@ -32,7 +32,7 @@ import coil.transform.CircleCropTransformation
 import io.mobilisinmobile.disneyworld.new.theme.DisneyTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewDetailActivity : ComponentActivity() {
+class DetailActivity : ComponentActivity() {
     private val viewModel: DetailViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
